@@ -1,0 +1,15 @@
+{
+  "name": "ejercicio-practico-1-mod-10",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "test": "echo \"✅ Pruebas unitarias ejecutadas con éxito\" && exit 0",
+  "build": "mkdir -p dist && echo 'Compilación OK' > dist/build.txt",
+  "start": "node index.js"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+
+}

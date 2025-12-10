@@ -1,0 +1,74 @@
+name: Pipeline CI/CD Basico - Modulo 10
+
+# Disparador: Se ejecuta con cada push a la rama 'main'
+on:
+  push:
+    branches:
+      - main 
+
+# Definición de las Etapas (Jobs)
+jobs:
+
+  # 1. Job: TESTEO (Instalar + Ejecutar Pruebas)
+  # Este es el job inicial y no depende de ningún otro.
+  test:
+    name: Instalar y Probar Código
+    runs-on: ubuntu-latest # Runner estándar de CI/CD
+
+    steps:
+      - name: 📦 Checkout del Código
+        uses: actions/checkout@v4
+      
+      - name: ⚙️ Configurar Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm' # Usa caché para acelerar la instalación de dependencias
+
+      - name: ⬇️ Instalación de dependencias (Requisito 1)
+        run: npm install
+
+      - name: 🧪 Ejecución de pruebas automatizadas (Requisito 2)
+        run: npm test
+
+  # 2. Job: CONSTRUCCIÓN (BUILD)
+  # Se ejecuta SOLO si el job 'test' finaliza con éxito.
+  build:
+    name: Construcción de Artefacto
+    needs: test # Usar 'needs' para garantizar la secuencia (Requisito 5)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Checkout del Código
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Configurar Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 🛠️ Construir Artefacto (Requisito 3)
+        # Asume que tu package.json tiene un script 'build' que genera un ejecutable o dist/
+        run: npm run build
+
+      - name: ⬆️ Subir Artefacto para Despliegue
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-build-artifact
+          path: dist/ # Guarda el resultado de la construcción (ejemplo: carpeta 'dist')
+
+  # 3. Job: DESPLIEGUE (DEPLOY)
+  # Se ejecuta SOLO si el job 'build' finaliza con éxito.
+  deploy:
+    name: Simulación de Despliegue
+    needs: build # Usar 'needs' para garantizar la secuencia (Requisito 5)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Descargar Artefacto
+        uses: actions/download-artifact@v4
+        with:
+          name: app-build-artifact
+
+      - name: 🚀 Simulación de Despliegue (Requisito 4)
+        run: echo "✅ Deploy realizado con éxito en el servidor de Staging/Producción."

@@ -1,0 +1,10 @@
+npm init -y
+
+----Crear la carpeta .github
+ .github
+
+----- Crear la subcarpeta workflows dentro de .github
+ .github/workflows
+
+----- Crear el archivo ci.yml
+ .github\workflows\ci.yml

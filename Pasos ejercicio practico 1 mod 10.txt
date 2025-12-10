@@ -8,3 +8,20 @@ npm init -y
 
 ----- Crear el archivo ci.yml
  .github\workflows\ci.yml
+
+---Crear repositorio "Ejercicio practico 1 mod 10" en GitHub.com
+
+---Inicializar el repositorio local (VSC):
+ git init
+
+----Conectar con GitHub (Repositorio Remoto)
+https://github.com/delinger55/Ejercicio-practico-1-mod-10
+
+
+----git add .
+
+-----Confirmar el Commit
+git commit -m "Solución Ejercicio M10: Implementación de pipeline secuencial"
+
+-----Subir y Establecer la Conexión Remota
+git push -u origin main
